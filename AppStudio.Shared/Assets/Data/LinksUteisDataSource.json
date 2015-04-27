@@ -1,0 +1,16 @@
+{
+  "Items": [
+    {
+      "Type": "Url",
+      "Title": "Portal",
+      "Icon": "/Assets/DataImages/ModuleLogo-1.png",
+      "Target": "http://www.minasgerais.com.br/"
+    },
+    {
+      "Type": "Url",
+      "Title": "Museus",
+      "Icon": "/Assets/DataImages/ModuleLogo-3.png",
+      "Target": "http://www.museus.gov.br/tag/minas-gerais/"
+    }
+  ]
+}

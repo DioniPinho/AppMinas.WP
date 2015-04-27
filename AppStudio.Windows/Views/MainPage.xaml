@@ -1,0 +1,62 @@
+<Page
+    x:Class="AppStudio.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AppStudio.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:AppStudio.ViewModels"
+    mc:Ignorable="d">
+
+    <Grid Background="{StaticResource AppBackground}">
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+
+        <Hub x:Name="Container" DataContext="{Binding}" Header="{Binding NavigationHelper}" HeaderTemplate="{StaticResource MainPageHeader}" 
+             SectionHeaderClick="OnSectionHeaderClick" SectionsInViewChanged="OnSectionsInViewChanged">
+            <HubSection x:Name="FlickrSection" Header="Flickr" HeaderTemplate="{StaticResource HubSectionHeaderTemplate}" DataContext="{Binding MainViewModel.FlickrModel}"
+                        d:DataContext="{d:DesignData Source=/Assets/Data/FlickrDataSource.json, Type=vm:FlickrViewModel, IsDesignTimeCreatable=true}"
+                        ContentTemplate="{StaticResource FlickrList}" IsHeaderInteractive="{Binding HasMoreItems}" Padding="120,12,0,30"
+                        Style="{StaticResource HubSectionStyle}"/>
+            <HubSection x:Name="LinksUteisSection" Header="Links Úteis" HeaderTemplate="{StaticResource HubSectionHeaderTemplate}" DataContext="{Binding MainViewModel.LinksUteisModel}"
+                        d:DataContext="{d:DesignData Source=/Assets/Data/LinksUteisDataSource.json, Type=vm:LinksUteisViewModel, IsDesignTimeCreatable=true}"
+                        ContentTemplate="{StaticResource LinksUteisList}" IsHeaderInteractive="{Binding HasMoreItems}" Padding="80,12,120,30"
+                        Style="{StaticResource HubSectionStyle}"/>
+        </Hub>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="SnappedView">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Container" Storyboard.TargetProperty="HeaderTemplate">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource MainPageHeaderSnapped}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FlickrSection" Storyboard.TargetProperty="ContentTemplate">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource FlickrListSnapped}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FlickrSection" Storyboard.TargetProperty="Padding">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="24,10,24,10"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LinksUteisSection" Storyboard.TargetProperty="ContentTemplate">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LinksUteisListSnapped}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LinksUteisSection" Storyboard.TargetProperty="Padding">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="24,10,24,10"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="FullscreenView">
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+
+    <Page.BottomAppBar>
+        <CommandBar Background="{StaticResource AppBarBackground}" BorderBrush="{StaticResource AppBarBackground}" Foreground="{StaticResource AppBarForeground}">
+            <AppBarButton x:Uid="RefreshButton" Icon="Refresh" DataContext="{Binding MainViewModel}" Command="{Binding RefreshCommand}" Visibility="{Binding RefreshVisibility}"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+</Page>
